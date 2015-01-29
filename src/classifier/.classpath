@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/jcommander-1.35.jar"/>
+	<classpathentry kind="lib" path="lib/weka-3.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/alternatingDecisionTrees.jar"/>
+	<classpathentry kind="lib" path="lib/bestFirstTree.jar"/>
+	<classpathentry kind="lib" path="lib/complementNaiveBayes.jar"/>
+	<classpathentry kind="lib" path="lib/conjunctiveRule.jar"/>
+	<classpathentry kind="lib" path="lib/extraTrees.jar"/>
+	<classpathentry kind="lib" path="lib/functionalTrees.jar"/>
+	<classpathentry kind="lib" path="lib/J48graft.jar"/>
+	<classpathentry kind="lib" path="lib/naiveBayesTree.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
