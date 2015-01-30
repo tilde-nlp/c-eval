@@ -29,7 +29,7 @@ probs = defaultdict(lambda: defaultdict(float))
 csrc = open(args.source_file, 'r')
 ctrg = open(args.target_file, 'r')
 table = open(args.fast_align_table, 'r')
-als = open(args.alignments, 'r')
+als = open(args.alignmnets, 'r')
 
 
 

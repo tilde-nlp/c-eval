@@ -126,4 +126,4 @@ if __name__ == '__main__':
 
         #palaiz atlasi, ja padod modela argumetu
         if args.model:
-            run('java', ['-jar', scriptPath.replace('cleaner.py', 'classifier.jar'), '-m', args.model, '-f', args.features_file, '-s', args.source_file, '-t', args.target_file, '-os', args.source_file + '.filtered.txt', '-ot', args.target_file + '.filtered.txt'])
+            run('java', ['-jar', scriptPath.replace('cleaner.py', 'classifier.jar'), '-m', args.model, '-f', args.features_file, '-s', args.source_file, '-t', args.target_file, '-os', args.source_file + '.filtered.txt', '-ot', args.target_file + '.filtered.txt', '-osb', args.source_file + '.filtered.BAD.txt', '-otb', args.target_file + '.filtered.BAD.txt'])
