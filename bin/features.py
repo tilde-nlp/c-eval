@@ -122,11 +122,13 @@ if __name__ == '__main__':
     if aligner == 'fastalign':
         # RUN pre-features.py:
         scriptPath = os.path.realpath(__file__)
+        if not os.path.exists(args.source_file + '.probabilities.txt'):
+            print "Running source pre-features"
+            run('python', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.source_file, '-t', args.target_file, '-als', args.source_target_alignm, '-fa', args.fast_align_table_source, '-o', args.source_file])
+        if not os.path.exists(args.target_file + '.probabilities.txt'):
+            print "Running target pre-features"
+            run('python', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.target_file, '-t', args.source_file, '-als', args.target_source_alignm, '-fa', args.fast_align_table_target, '-o', args.target_file])
 
-        run('python', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.source_file, '-t', args.target_file, '-als', args.source_target_alignm, '-fa', args.fast_align_table_source, '-o', args.source_file])
-        run('python', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.target_file, '-t', args.source_file, '-als', args.target_source_alignm, '-fa', args.fast_align_table_target, '-o', args.target_file])
-
-        print "RUNNING pre-features", '\n'
         # Open files with probabilities
         probs_src_file = open(args.source_file + ".probabilities.txt", 'r')
         probs_trg_file = open(args.target_file + ".probabilities.txt", 'r')
@@ -187,7 +189,8 @@ if __name__ == '__main__':
                 sum_trg += float(prob)
                 trg_pow *= abs(float(prob))
             alignments_sym = symmetrize_alignments_union(alignments_src, alignments_trg_normalized)
-
+           	
+ 
         if aligner == 'giza':
             features = [
             calculate_alignment(score_line_src, tokens_line_src.split()),
@@ -206,10 +209,10 @@ if __name__ == '__main__':
                 0 if len(alignments_trg) == 0 else sum_trg / len(alignments_trg),
                 0 if sum_src == 0 else math.log(abs(sum_src / len(alignments_src))),
                 0 if sum_trg == 0 else math.log(abs(sum_trg / len(alignments_trg))),
-                0 if sum_src == 0 else math.pow(src_pow, 1/float(len(alignments_src))),
-                0 if sum_trg == 0 else math.pow(trg_pow, 1/float(len(alignments_trg))),
-                0 if sum_src == 0 or src_pow == 0 else math.log(abs(math.pow(src_pow, 1/float(len(alignments_src))))),
-                0 if sum_trg == 0 or trg_pow == 0 else math.log(abs(math.pow(trg_pow, 1/float(len(alignments_trg)))))
+                0 if sum_src == 0 or str(src_pow) == 'inf' else math.pow(src_pow, 1/float(len(alignments_src))),
+                0 if sum_trg == 0 or str(trg_pow) == 'inf' else math.pow(trg_pow, 1/float(len(alignments_trg))),
+                0 if sum_src == 0 or src_pow == 0 or str(src_pow) == 'inf' else math.log(abs(math.pow(src_pow, 1/float(len(alignments_src))))),
+                0 if sum_trg == 0 or trg_pow == 0 or str(trg_pow) == 'inf' else math.log(abs(math.pow(trg_pow, 1/float(len(alignments_trg)))))
             ]
         features = map(lambda n: format_num(n, precision), features)
         
@@ -218,6 +221,9 @@ if __name__ == '__main__':
 
         fout.write(delimiter.join(features) + '\n')
 
+        #if 'inf' in features:
+            #print src_pow, len(alignments_src), trg_pow, len(alignments_trg), 'line_num', str(line_num)          
+        
         line_num += 1
         if line_num % 100000 == 0:
             flog.write(str(line_num) + ' lines processsed\n')
