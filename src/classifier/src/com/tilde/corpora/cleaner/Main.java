@@ -66,6 +66,8 @@ public class Main {
 			
 			BufferedWriter sourceSentenceWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(options.outputSourceSentencesFilename), "UTF-8"));
 			BufferedWriter targetSentenceWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(options.outputTargetSentencesFilename), "UTF-8"));
+			BufferedWriter sourceBadSentenceWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(options.outputBadSourceSentencesFilename), "UTF-8"));
+			BufferedWriter targetBadSentenceWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(options.outputBadTargetSentencesFilename), "UTF-8"));
 			
 			while (!loader.isEnd()) {
 				SentenceInstance instance = loader.getNext();
@@ -77,11 +79,15 @@ public class Main {
 					good += 1; 
 				} else {
 					bad += 1;
+					sourceBadSentenceWriter.write(instance.getSourceSentence() + "\n");
+					targetBadSentenceWriter.write(instance.getTargetSentence() + "\n");					
 				}
 			}
 			
 			sourceSentenceWriter.close();
 			targetSentenceWriter.close();
+			sourceBadSentenceWriter.close();
+			targetBadSentenceWriter.close();
 			
 			loader.close();
 			
@@ -120,6 +126,12 @@ public class Main {
 	    public String outputSourceSentencesFilename;
 	    @Parameter(names = { "-ot", "-otrg", "--trg-output" }, description = "Path for saving filtered sentences in target language")
 	    public String outputTargetSentencesFilename;
+	    
+	    @Parameter(names = { "-osb", "-osrcbad", "--src-output-bad" }, description = "Path for saving bad filtered sentences in source language")
+	    public String outputBadSourceSentencesFilename;
+	    @Parameter(names = { "-otb", "-otrgbad", "--trg-output-bad" }, description = "Path for saving bad filtered sentences in target language")
+	    public String outputBadTargetSentencesFilename;
+	    
 	    @Parameter(names = { "-h", "-help", "--help" }, help = true)
 	    public boolean help;
 	}
