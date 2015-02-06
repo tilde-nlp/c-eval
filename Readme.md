@@ -1,9 +1,9 @@
 ﻿# Corpus Cleaner
 
-`cleaner.py` is a script for parallel corpus cleaning based on machine leanrning. It incorperates WEKA library as well as Fastalign and Giza++ aligners. The cleaner outputs respective parallel corpus of filtered (good) sentences that have been judjed as good bu the model. The model should be trained on a corpus that ir known to contain good, parallel trainslations. For more accurate results the same language pair should be used for both the model and parallle corpus to be cleaned.
+`cleaner.py` is a script for parallel corpus cleaning based on machine leanrning. It incorperates WEKA library as well as Fastalign and Giza++ aligners. The cleaner outputs respective parallel corpus of filtered (good) sentences that have been judjed as good by the model. The model should be trained on a corpus that is known to contain good, parallel trainslations. For more accurate results the same language pair should be used for both the model and the parallel corpus that is to be cleaned.
 
 # Model training process:
-The statistical machine leanrning model requires "good"and "bad" data input for comparison. "Good" data is taken from the source corpus, while bad data is generated form the target corpus by shiffling the lines.
+The statistical machine leanrning model requires "good" and "bad" data input for comparison. "Good" data is taken from the source corpus, while "bad" data is generated form the target corpus by shiffling the lines.
 
 Training of "good" lines includes:
   * "Good" corpus alignment by Giza++ or Fastalign, generating alignment files.
