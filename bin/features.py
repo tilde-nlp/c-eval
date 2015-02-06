@@ -207,12 +207,12 @@ if __name__ == '__main__':
                 calculate_sym_ratio(alignments_sym, alignments_trg),
                 0 if len(alignments_src) == 0 else sum_src / len(alignments_src),
                 0 if len(alignments_trg) == 0 else sum_trg / len(alignments_trg),
-                0 if sum_src == 0 else math.log(abs(sum_src / len(alignments_src))),
-                0 if sum_trg == 0 else math.log(abs(sum_trg / len(alignments_trg))),
-                0 if sum_src == 0 or str(src_pow) == 'inf' else math.pow(src_pow, 1/float(len(alignments_src))),
-                0 if sum_trg == 0 or str(trg_pow) == 'inf' else math.pow(trg_pow, 1/float(len(alignments_trg))),
-                0 if sum_src == 0 or src_pow == 0 or str(src_pow) == 'inf' else math.log(abs(math.pow(src_pow, 1/float(len(alignments_src))))),
-                0 if sum_trg == 0 or trg_pow == 0 or str(trg_pow) == 'inf' else math.log(abs(math.pow(trg_pow, 1/float(len(alignments_trg)))))
+                0 if sum_src == 0 or len(alignments_src) == 0 else math.log(abs(sum_src / len(alignments_src))),
+                0 if sum_trg == 0 or len(alignments_trg) == 0 else math.log(abs(sum_trg / len(alignments_trg))),
+                0 if sum_src == 0 or str(src_pow) == 'inf' or len(alignments_src) == 0 else math.pow(src_pow, 1/float(len(alignments_src))),
+                0 if sum_trg == 0 or str(trg_pow) == 'inf' or len(alignments_trg) == 0 else math.pow(trg_pow, 1/float(len(alignments_trg))),
+                0 if sum_src == 0 or src_pow == 0 or str(src_pow) == 'inf' or len(alignments_src) == 0 else math.log(abs(math.pow(src_pow, 1/float(len(alignments_src))))),
+                0 if sum_trg == 0 or trg_pow == 0 or str(trg_pow) == 'inf' or len(alignments_trg) == 0 else math.log(abs(math.pow(trg_pow, 1/float(len(alignments_trg)))))
             ]
         features = map(lambda n: format_num(n, precision), features)
         
