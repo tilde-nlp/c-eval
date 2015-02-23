@@ -124,10 +124,10 @@ if __name__ == '__main__':
         scriptPath = os.path.realpath(__file__)
         if not os.path.exists(args.source_file + '.probabilities.txt'):
             print "Running source pre-features"
-            run('python', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.source_file, '-t', args.target_file, '-als', args.source_target_alignm, '-fa', args.fast_align_table_source, '-o', args.source_file])
+            run('pypy', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.source_file, '-t', args.target_file, '-als', args.source_target_alignm, '-fa', args.fast_align_table_source, '-o', args.source_file])
         if not os.path.exists(args.target_file + '.probabilities.txt'):
             print "Running target pre-features"
-            run('python', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.target_file, '-t', args.source_file, '-als', args.target_source_alignm, '-fa', args.fast_align_table_target, '-o', args.target_file])
+            run('pypy', [scriptPath.replace('features.py', 'pre-features.py'), '-s', args.target_file, '-t', args.source_file, '-als', args.target_source_alignm, '-fa', args.fast_align_table_target, '-o', args.target_file])
 
         # Open files with probabilities
         probs_src_file = open(args.source_file + ".probabilities.txt", 'r')

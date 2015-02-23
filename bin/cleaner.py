@@ -54,35 +54,35 @@ if __name__ == '__main__':
         args.source_target_file = 'cleaner-train.src-trg.good.alignments-' + args.source_file
         args.target_source_file = 'cleaner-train.trg-src.good.alignments-' + args.target_file
         if not os.path.exists(args.source_target_file):
-            run('python', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', args.source_target_file, '--giza-keep-output', '--fastalign-keep-table'])
+            run('pypy', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', args.source_target_file, '--giza-keep-output', '--fastalign-keep-table'])
             if args.aligner == 'giza': rename(args.source_target_file + '.giza', args.source_target_file)
         if not os.path.exists(args.target_source_file):
-            run('python', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-ts', args.target_source_file, '--giza-keep-output','--fastalign-keep-table'])
+            run('pypy', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-ts', args.target_source_file, '--giza-keep-output','--fastalign-keep-table'])
             if args.aligner == 'giza': rename(args.target_source_file + '.giza', args.target_source_file)
 
         #uztaisa sliktos datus modela testesanai/trenesanai
         if not os.path.exists('cleaner-train.trg.bad.' + args.target_file):
-            run('python', [scriptPath.replace("cleaner.py", 'shuffle.py'), '-i', args.target_file, '-o', 'cleaner-train.trg.bad-' + args.target_file])
+            run('pypy', [scriptPath.replace("cleaner.py", 'shuffle.py'), '-i', args.target_file, '-o', 'cleaner-train.trg.bad-' + args.target_file])
 
         args.source_target_file = 'cleaner-train.src-trg.bad.alignments-' + args.source_file
         args.target_source_file = 'cleaner-train.trg-src.bad.alignments-' + args.target_file
         #trenne ar aligner bad datus
         if not os.path.exists(args.source_target_file):
-            run('python', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', 'cleaner-train.trg.bad-' + args.target_file, '-st', args.source_target_file, '--giza-keep-output', '--fastalign-keep-table'])
+            run('pypy', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', 'cleaner-train.trg.bad-' + args.target_file, '-st', args.source_target_file, '--giza-keep-output', '--fastalign-keep-table'])
             if args.aligner == 'giza': rename(args.source_target_file + '.giza', args.source_target_file)
         if not os.path.exists(args.target_source_file):
-            run('python', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', 'cleaner-train.trg.bad-' + args.target_file, '-ts', args.target_source_file, '--giza-keep-output', '--fastalign-keep-table'])
+            run('pypy', [scriptPath.replace("cleaner.py", 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', 'cleaner-train.trg.bad-' + args.target_file, '-ts', args.target_source_file, '--giza-keep-output', '--fastalign-keep-table'])
             if args.aligner == 'giza': rename(args.target_source_file + '.giza', args.target_source_file)
 
         #izvelk features ara no good/bad teikumiem
         args.features_file = 'cleaner-train.features-' + args.source_file + '.' + args.target_file
         if not os.path.exists(args.features_file):
             if args.aligner == 'giza':
-                run('python', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-st', 'cleaner-train.src-trg.good.alignments-' + args.source_file, '-ts', 'cleaner-train.trg-src.good.alignments-' + args.target_file, '-o', 'cleaner-train.features.good.txt', '-c', 'good', '-p', '8'])
-                run('python', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-st', 'cleaner-train.src-trg.bad.alignments-' + args.source_file, '-ts', 'cleaner-train.trg-src.bad.alignments-' + args.target_file, '-o', 'cleaner-train.features.bad.txt', '-c', 'bad', '-p', '8'])
+                run('pypy', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-st', 'cleaner-train.src-trg.good.alignments-' + args.source_file, '-ts', 'cleaner-train.trg-src.good.alignments-' + args.target_file, '-o', 'cleaner-train.features.good.txt', '-c', 'good', '-p', '8'])
+                run('pypy', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-st', 'cleaner-train.src-trg.bad.alignments-' + args.source_file, '-ts', 'cleaner-train.trg-src.bad.alignments-' + args.target_file, '-o', 'cleaner-train.features.bad.txt', '-c', 'bad', '-p', '8'])
             if args.aligner == 'fastalign':
-                run('python', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', 'cleaner-train.src-trg.good.alignments-' + args.source_file, '-ts', 'cleaner-train.trg-src.good.alignments-' + args.target_file,'-fas', 'cleaner-train.src-trg.good.alignments-' + args.source_file + '.fastalign.table' , '-fat', 'cleaner-train.trg-src.good.alignments-' + args.target_file + '.fastalign.table','-o', 'cleaner-train.features.good.txt', '-c', 'good', '-p', '8'])
-                run('python', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-s', args.source_file, '-t', 'cleaner-train.trg.bad-' + args.target_file,'-st', 'cleaner-train.src-trg.bad.alignments-' + args.source_file, '-fas', 'cleaner-train.src-trg.bad.alignments-' + args.source_file + '.fastalign.table' , '-fat', 'cleaner-train.trg-src.bad.alignments-' + args.target_file + '.fastalign.table','-ts', 'cleaner-train.trg-src.bad.alignments-' + args.target_file, '-o', 'cleaner-train.features.bad.txt', '-c', 'bad', '-p', '8'])
+                run('pypy', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', 'cleaner-train.src-trg.good.alignments-' + args.source_file, '-ts', 'cleaner-train.trg-src.good.alignments-' + args.target_file,'-fas', 'cleaner-train.src-trg.good.alignments-' + args.source_file + '.fastalign.table' , '-fat', 'cleaner-train.trg-src.good.alignments-' + args.target_file + '.fastalign.table','-o', 'cleaner-train.features.good.txt', '-c', 'good', '-p', '8'])
+                run('pypy', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-s', args.source_file, '-t', 'cleaner-train.trg.bad-' + args.target_file,'-st', 'cleaner-train.src-trg.bad.alignments-' + args.source_file, '-fas', 'cleaner-train.src-trg.bad.alignments-' + args.source_file + '.fastalign.table' , '-fat', 'cleaner-train.trg-src.bad.alignments-' + args.target_file + '.fastalign.table','-ts', 'cleaner-train.trg-src.bad.alignments-' + args.target_file, '-o', 'cleaner-train.features.bad.txt', '-c', 'bad', '-p', '8'])
 
             #saliek kopa good + bad = cleaner-train.features.txt
             fg = open ('cleaner-train.features.good.txt', 'r')
@@ -113,16 +113,16 @@ if __name__ == '__main__':
         args.output_file = args.features_file
 
         if not os.path.exists(args.source_target_file):
-            run('python', [scriptPath.replace('cleaner.py', 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', args.source_target_file, '--giza-keep-output', '--fastalign-keep-table'])
+            run('pypy', [scriptPath.replace('cleaner.py', 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', args.source_target_file, '--giza-keep-output', '--fastalign-keep-table'])
             if args.aligner == 'giza':
                 rename(args.source_target_file + '.giza', args.source_target_file)
         if not os.path.exists(args.target_source_file):
-            run('python', [scriptPath.replace('cleaner.py', 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-ts', args.target_source_file, '--giza-keep-output', '--fastalign-keep-table'])
+            run('pypy', [scriptPath.replace('cleaner.py', 'aligner/aligner.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-ts', args.target_source_file, '--giza-keep-output', '--fastalign-keep-table'])
             if args.aligner == 'giza': rename(args.target_source_file + '.giza', args.target_source_file)
         #izvelk features ara, ja nav tada faila jau gatava
         if not os.path.exists(args.features_file):
-            if args.aligner == 'giza': run('python', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-st', args.source_target_file, '-ts', args.target_source_file, '-o', args.output_file , '-p', '8'])
-            elif args.aligner == 'fastalign': run('python', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', args.source_target_file, '-ts', args.target_source_file,'-fas', args.source_target_file +  '.fastalign.table' , '-fat', args.target_source_file + '.fastalign.table','-o', args.output_file, '-p', '8'])
+            if args.aligner == 'giza': run('pypy', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-st', args.source_target_file, '-ts', args.target_source_file, '-o', args.output_file , '-p', '8'])
+            elif args.aligner == 'fastalign': run('pypy', [scriptPath.replace('cleaner.py', 'features.py'), '-a', args.aligner, '-s', args.source_file, '-t', args.target_file, '-st', args.source_target_file, '-ts', args.target_source_file,'-fas', args.source_target_file +  '.fastalign.table' , '-fat', args.target_source_file + '.fastalign.table','-o', args.output_file, '-p', '8'])
 
         #palaiz atlasi, ja padod modela argumetu
         if args.model:
