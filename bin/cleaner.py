@@ -61,7 +61,7 @@ if __name__ == '__main__':
             if args.aligner == 'giza': rename(args.target_source_file + '.giza', args.target_source_file)
 
         #uztaisa sliktos datus modela testesanai/trenesanai
-        if not os.path.exists('cleaner-train.trg.bad.' + args.target_file):
+        if not os.path.exists('cleaner-train.trg.bad-' + args.target_file):
             run('pypy', [scriptPath.replace("cleaner.py", 'shuffle.py'), '-i', args.target_file, '-o', 'cleaner-train.trg.bad-' + args.target_file])
 
         args.source_target_file = 'cleaner-train.src-trg.bad.alignments-' + args.source_file
